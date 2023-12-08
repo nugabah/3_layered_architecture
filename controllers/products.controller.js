@@ -1,5 +1,4 @@
 const ProductsService = require('../services/products.service.js');
-// const url = require('url');
 
 class ProductsController {
   productsService = new ProductsService();
@@ -17,20 +16,6 @@ class ProductsController {
 
   readAllProducts = async (req, res) => {
     try {
-      // let getUrl = req.url;
-      // let queryData = url.parse(getUrl, true).query;
-      // let sortingWord = 'DESC';
-      // if (queryData.sort) {
-      //   const sortValue = queryData.sort.toLowerCase();
-      //   if (sortValue === 'asc') {
-      //     sortingWord = 'ASC';
-      //   } else if (sortValue === 'desc') {
-      //     sortingWord = 'DESC';
-      //   }
-      // }
-
-      // order: [['createdAt', sortingWord]],
-
       const showAllProducts = await this.productsService.findAllProducts();
       return res.status(200).json({ data: showAllProducts });
     } catch (err) {

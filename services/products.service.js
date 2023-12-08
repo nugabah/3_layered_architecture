@@ -32,7 +32,7 @@ class ProductsService {
     if (status !== 'FOR_SALE' && status !== 'SOLD_OUT') {
       return res.status(409).json({ message: '판매 중이거나 판매 완료여야 합니다.' });
     }
-    const product = await this.productsRepository.findPIdProduct();
+    const product = await this.productsRepository.findPIdProduct(productId);
     if (!product) {
       return res.status(404).json({ message: '상품 조회에 실패하였습니다.' });
     } else if (product.userId !== userId) {
@@ -43,7 +43,7 @@ class ProductsService {
   };
 
   deleteProduct = async (productId, userId) => {
-    const product = await this.prisma.Products.findFirst({ where: { productId: +productId } });
+    const product = await this.productsRepository.findPIdProduct(productId);
 
     if (!product) {
       return res.status(404).json({ message: '상품 조회에 실패하였습니다.' });
@@ -51,9 +51,8 @@ class ProductsService {
       return res.status(401).json({ message: '권한이 없습니다.' });
     }
 
-    await this.prisma.Products.delete({
-      where: { productId: +productId },
-    });
+    const deletedProduct = await this.productsRepository.deleteProduct(productId);
+    return deletedProduct;
   };
 }
 
