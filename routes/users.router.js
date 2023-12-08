@@ -9,4 +9,7 @@ usersRouter.post('/users/signup', usersController.signUp);
 // 로그인
 usersRouter.post('/users/login', usersController.logIn);
 
+// 로그아웃
+usersRouter.get('/users/logout', usersController.logOut);
+
 module.exports = usersRouter;
