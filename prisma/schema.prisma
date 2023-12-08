@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Products {
+  productId Int      @id @default(autoincrement())
+  userId    Int
+  name      String   @db.VarChar(255)
+  title     String   @db.VarChar(255)
+  content   String   @db.VarChar(255)
+  status    String   @default("FOR_SALE") @db.VarChar(255)
+  createdAt DateTime @default(now()) @db.DateTime(0)
+  updatedAt DateTime @updatedAt
+  Users     Users    @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "Products_ibfk_1")
+
+  @@index([userId], map: "userId")
+}
+
+model SequelizeMeta {
+  name String @id @unique(map: "name") @db.VarChar(255)
+}
+
+model Users {
+  userId    Int        @id @default(autoincrement())
+  email     String     @unique(map: "email") @db.VarChar(255)
+  password  String     @db.VarChar(255)
+  name      String     @db.VarChar(255)
+  createdAt DateTime   @default(now()) @db.DateTime(0)
+  updatedAt DateTime   @updatedAt
+  Products  Products[]
+}
