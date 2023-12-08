@@ -2,12 +2,12 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const dotenv = require('dotenv');
 const { PrismaClient } = require('@prisma/client');
-// const { UsersService } = require('../services/users.service.js');
+const UsersService = require('../services/users.service.js');
 dotenv.config();
 const secretKey = process.env.CUSTOMIZE_SECRET_KEY;
 
 class UsersController {
-  // usersService = new UsersService();
+  usersService = new UsersService();
   prisma = new PrismaClient();
 
   signUp = async (req, res) => {
@@ -43,7 +43,9 @@ class UsersController {
         updatedAt: user.updatedAt,
       };
       await this.prisma.$disconnect();
-      return res.status(201).json({ data: userWithoutPassword });
+
+      const userInfo = await this.usersService.signUp(email, password, name);
+      return res.status(201).json({ data: userInfo });
     } catch (err) {
       res.status(400).json({ errorMessage: '에러가 발생했습니다.', err });
     }

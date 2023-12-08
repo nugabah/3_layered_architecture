@@ -1,4 +1,4 @@
-const { UsersRepository } = require('../repositories/users.repository.js');
+const UsersRepository = require('../repositories/users.repository.js');
 
 class UsersController {
   usersRepository = new UsersRepository();
