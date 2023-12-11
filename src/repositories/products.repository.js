@@ -1,18 +1,17 @@
-const { PrismaClient } = require('@prisma/client');
+const prisma = require('../utils/prisma/index.js');
 
 class ProductsRepository {
-  prisma = new PrismaClient();
   createProduct = async (userId, title, content) => {
-    const joinUser = await this.prisma.Users.findFirst({ where: { userId: +userId } });
-    const product = await this.prisma.Products.create({
+    const joinUser = await prisma.Users.findFirst({ where: { userId: +userId } });
+    const product = await prisma.Products.create({
       data: { userId: userId, name: joinUser.name, title, content },
     });
-    await this.prisma.$disconnect();
+    await prisma.$disconnect();
     return product;
   };
 
   readAllProducts = async () => {
-    const products = await this.prisma.Products.findMany({
+    const products = await prisma.Products.findMany({
       select: {
         productId: true,
         title: true,
@@ -24,12 +23,12 @@ class ProductsRepository {
       },
       orderBy: { createdAt: 'desc' },
     });
-    await this.prisma.$disconnect();
+    await prisma.$disconnect();
     return products;
   };
 
   readDetailProduct = async productId => {
-    const product = await this.prisma.Products.findFirst({
+    const product = await prisma.Products.findFirst({
       select: {
         productId: true,
         title: true,
@@ -41,30 +40,30 @@ class ProductsRepository {
       },
       where: { productId: +productId },
     });
-    await this.prisma.$disconnect();
+    await prisma.$disconnect();
     return product;
   };
 
   findPIdProduct = async productId => {
-    const product = await this.prisma.Products.findFirst({ where: { productId: +productId } });
-    await this.prisma.$disconnect();
+    const product = await prisma.Products.findFirst({ where: { productId: +productId } });
+    await prisma.$disconnect();
     return product;
   };
 
   updateProduct = async (title, content, status, productId) => {
-    const updatedProduct = await this.prisma.Products.update({
+    const updatedProduct = await prisma.Products.update({
       where: { productId: +productId },
       data: { title: title, content: content, status: status },
     });
-    await this.prisma.$disconnect();
+    await prisma.$disconnect();
     return updatedProduct;
   };
 
   deleteProduct = async productId => {
-    const deletedProduct = await this.prisma.Products.delete({
+    const deletedProduct = await prisma.Products.delete({
       where: { productId: +productId },
     });
-    await this.prisma.$disconnect();
+    await prisma.$disconnect();
     return deletedProduct;
   };
 }

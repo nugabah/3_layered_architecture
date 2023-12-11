@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken');
-const { PrismaClient } = require('@prisma/client');
+const prisma = require('../utils/prisma/index.js');
 const dotenv = require('dotenv');
 dotenv.config();
-const prisma = new PrismaClient();
 const secretKey = process.env.CUSTOMIZE_SECRET_KEY;
 
 module.exports = async (req, res, next) => {
