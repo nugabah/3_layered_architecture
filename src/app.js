@@ -11,7 +11,9 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use('/api', [productsRouter, usersRouter, authRouter]);
+app.use('/api/user', usersRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/products', productsRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

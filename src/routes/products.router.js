@@ -6,18 +6,18 @@ const routerProducts = express.Router();
 const productsController = new ProductsController();
 
 //상품 등록
-routerProducts.post('/products', authMiddleware, productsController.createProduct);
+routerProducts.post('/', authMiddleware, productsController.createProduct);
 
 //상품 목록 조회
-routerProducts.get('/products', productsController.readAllProducts);
+routerProducts.get('/', productsController.readAllProducts);
 
 //상품 개별 조회
-routerProducts.get('/products/:productId', productsController.readDetailProduct);
+routerProducts.get('/:productId', productsController.readDetailProduct);
 
 //상품 정보 수정
-routerProducts.put('/products/:productId', authMiddleware, productsController.updateProduct);
+routerProducts.put('/:productId', authMiddleware, productsController.updateProduct);
 
 //상품 삭제
-routerProducts.delete('/products/:productId', authMiddleware, productsController.deleteProduct);
+routerProducts.delete('/:productId', authMiddleware, productsController.deleteProduct);
 
 module.exports = routerProducts;
