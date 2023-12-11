@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const usersRouter = require('./routes/users.router.js');
 const productsRouter = require('./routes/products.router.js');
+const authRouter = require('./routes/auth.router.js');
 
 const app = express();
 const port = 3000;
@@ -10,7 +11,7 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use('/api', [productsRouter, usersRouter]);
+app.use('/api', [productsRouter, usersRouter, authRouter]);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
